@@ -53,3 +53,4 @@ class Mapmanager(): # harita ile ilgilenen sınıf
                        block = self.addBlock((x, y, z0))
                    x += 1
                y += 1
+        return x,y
