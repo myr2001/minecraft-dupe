@@ -53,17 +53,65 @@ class Hero():
         else:
             self.cameraBind()
     
-    def turn_left(self):
-        pass
+    def turn_left(self): # heading + 5
+        self.hero.setH((self.hero.getH()+5)%360)
 
     def turn_right(self):
-        pass
+        self.hero.setH((self.hero.getH()-5)%360)
 
     def look_at(self):
-        pass
+        # kahramanın pozisyon bilgilerini al:
+        x_from = round(self.hero.getX())
+        y_from = round(self.hero.getY())
+        z_from = round(self.hero.getZ())
+
+        # hero nereye bakıyor:
+        dx, dy = self.check_dir(angle)
+        # baktığı yönde ilerlerse:
+        x_to = x_from + dx
+        y_to = y_from + dy
+        return x_to, y_to, z_from
 
     def just_move(self, angle):
-        pass
+        # baktığı yöne git:
+        pos = self.look_at(angle)
+        self.hero.setPos()
 
     def move_to(self, angle):
+        if self.mode:
+            self.just_move(angle)
+
+    def check_dir(self, angle):
+        if angle => 0 and angle <= 20:
+            return (0,-1)
+        elif angle <= 65:
+           return (1, -1)
+       elif angle <= 110:
+           return (1, 0)
+       elif angle <= 155:
+           return (1, 1)
+       elif angle <= 200:
+           return (0, 1)
+       elif angle <= 245:
+           return (-1, 1)
+       elif angle <= 290:
+           return (-1, 0)
+       elif angle <= 335:
+           return (-1, -1)
+       else:
+           return (0, -1)
+
+    def forward(self):
+        pass
+
+    def back(self):
+        pass
+
+    def right(self):
+        pass
+
+    def left(self):
+        pass
+
+    def accept_events(self):
         pass
