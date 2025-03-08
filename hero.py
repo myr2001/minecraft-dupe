@@ -78,40 +78,80 @@ class Hero():
         self.hero.setPos()
 
     def move_to(self, angle):
-        if self.mode:
+        if self.mode: # aynı şey: self.mode == 1
             self.just_move(angle)
 
     def check_dir(self, angle):
         if angle => 0 and angle <= 20:
             return (0,-1)
         elif angle <= 65:
-           return (1, -1)
-       elif angle <= 110:
-           return (1, 0)
-       elif angle <= 155:
-           return (1, 1)
-       elif angle <= 200:
-           return (0, 1)
-       elif angle <= 245:
-           return (-1, 1)
-       elif angle <= 290:
-           return (-1, 0)
-       elif angle <= 335:
-           return (-1, -1)
-       else:
-           return (0, -1)
+            return (1, -1)
+        elif angle <= 110:
+            return (1, 0)
+        elif angle <= 155:
+            return (1, 1)
+        elif angle <= 200:
+            return (0, 1)
+        elif angle <= 245:
+            return (-1, 1)
+        elif angle <= 290:
+            return (-1, 0)
+        elif angle <= 335:
+            return (-1, -1)
+        else:
+            return (0, -1)
 
-    def forward(self):
-        pass
+    def forward(self): # ileri
+        # bakış açısını al
+        angle = (self.hero.getH()) % 360
+        # o açıya doğru git
+        self.move_to(angle)
 
-    def back(self):
-        pass
+    def back(self): # geri
+        # bakış açısını al
+        # 180 ekleyerek arkaya döndür
+        angle = (self.hero.getH()+180) % 360
+        # hesaplanmış açıya doğru git
+        self.move_to(angle)
 
-    def right(self):
-        pass
+    def right(self): # sağ
+        # açı + 90 ile tam sağa açı hesapla
+        angle = (self.hero.getH()+90) % 360
+        # oraya doğru hareket et
+        self.move_to(angle)
 
-    def left(self):
-        pass
+    def left(self): # sol
+        # açı + 270 ile sola açı hesapla
+        angle = (self.hero.getH()+270) % 360
+        # oraya doğru hareket et
+        self.move_to(angle)
 
     def accept_events(self):
-        pass
+        # metodlar ile basılacak tuşlar arası bağ
+
+        # --- DÖN ---
+        # sol dön
+        base.accept(key_turn_left, self.turn_left)
+        # tuşa basılı tutulunca yada tekrar tekrar basılınca
+        base.accept(key_turn_left + "-repeat", self.turn_left)
+        # sağ dön
+        base.accept(key_turn_right, self.turn_right)
+        # tekrar tekrar basılınca
+        base.accept(key_turn_right + "-repeat", self.turn_right)
+
+        # --- HAREKET ---
+        # ileri git
+        base.accept(key_forward, self.forward)
+        base.accept(key_forward + "-repeat", self.forward)
+        # geri git
+        base.accept(key_back, self.back)
+        base.accept(key_back + "-repeat", self.back)
+        # sağa git (dönme değil)
+        base.accept(key_right, self.right)
+        base.accept(key_right + "-repeat", self.right)
+        # sola git
+        base.accept(key_left, self.left)
+        base.accept(key_left + "-repeat", self.left)
+
+        # --- KAMERA MODU DEĞİŞTİR ---
+        base.accept(key_switch_camera, self.changeView)
